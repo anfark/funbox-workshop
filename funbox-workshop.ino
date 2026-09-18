@@ -1,37 +1,24 @@
 #include <FunBox.h>
 
 #include "Snake.h"
+#include "StarFall.h"
+#include "Frogger.h"
 
 
 FunBox box;
 
 
-SnakeConfig snakeConfig = {
-  .bounds = Matrix::SIZE
-};
-
-
-SnakeGame snake(
-  snakeConfig,
-  box.matrix(),
-  box.screen(),
-  box.audio()
-);
-
-
-GameDescription snakeDescription(
-  "Snake",
-  snake
-);
-
-
+// Registriert alle Spiele und initialisiert die FunBox.
 void setup() {
-  box.addGame(snakeDescription);
+  box.addGame<SnakeGame>();
+  box.addGame<StarFallGame>();
+  box.addGame<FroggerGame>();
 
   box.setup();
 }
 
 
+// Aktualisiert die FunBox fortlaufend.
 void loop() {
   box.update();
 }

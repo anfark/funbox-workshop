@@ -6,11 +6,6 @@
 #include <FunBox.h>
 
 
-struct SnakeConfig {
-  Size bounds;
-};
-
-
 using SnakeBody =
   std::vector<Position>;
 
@@ -39,71 +34,43 @@ using SnakeEvent =
   >;
 
 
-class SnakeUpdate
-  : public GameUpdate<
-      SnakeState,
-      SnakeEvent
-    > {
-
+class SnakeUpdate : public GameUpdate<SnakeState, SnakeEvent> {
 public:
-  SnakeUpdate(
-    SnakeState& state,
-    Emit emit,
-    SnakeConfig config
-  );
+  using GameUpdate::GameUpdate;
 
   void tick() override;
 
-  void move(
-    Direction direction
-  ) override;
+  void move(Direction direction) override;
 
   bool isOver() const override;
 
 private:
-  const SnakeConfig _config;
-
   Position nextFruit() const;
 };
 
 
-class SnakeRender
-  : public GameRender {
-
+class SnakeRender: public GameRender {
 public:
   using GameRender::GameRender;
 
-  void state(
-    const SnakeState& state
-  );
+  void state(const SnakeState& state);
 
-  void event(
-    const DidEatFruit&
-  );
+  void event(const DidEatFruit&);
 
-  void event(
-    const DidEatSnake&
-  );
+  void event(const DidEatSnake&);
+
+  void gameOver(const SnakeState& state);
 };
 
 
-class SnakeGame
-  : public Game<
-      SnakeState,
-      SnakeEvent,
-      SnakeUpdate,
-      SnakeRender
-    > {
+struct SnakeGame {
+  static constexpr const char* NAME = "Snake";
 
-public:
-  SnakeGame(
-    SnakeConfig config,
-    Matrix& matrix,
-    Screen& screen,
-    Audio& audio
-  );
+  using State = SnakeState;
+  using Event = SnakeEvent;
 
-private:
-  SnakeUpdate _update;
-  SnakeRender _render;
+  using Update = SnakeUpdate;
+  using Render =SnakeRender;
+
+  static State initialState();
 };
