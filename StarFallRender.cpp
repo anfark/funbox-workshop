@@ -11,13 +11,11 @@ const Color STAR_COLOR = {
   .b = 120
 };
 
-
 const Color SHIP_COLOR = {
   .r = 0,
   .g = 120,
   .b = 255
 };
-
 
 const Color SHOT_COLOR = {
   .r = 255,
@@ -33,7 +31,6 @@ const Melody SHOOT_SOUND = {
   }
 };
 
-
 const Melody HIT_SOUND = {
   {
     Notes::G5,
@@ -45,7 +42,6 @@ const Melody HIT_SOUND = {
   }
 };
 
-
 const Noise SHIP_HIT_SOUND = {
   NoteDuration::Half
 };
@@ -56,39 +52,24 @@ const Noise SHIP_HIT_SOUND = {
 // =====================================================
 
 // Zeichnet das Raumschiff an seiner aktuellen Position.
-void drawShip(
-  Matrix& matrix,
-  int shipX
-) {
+void drawShip(Matrix& matrix, int shipX) {
   matrix.drawPixel(
-    Position{
-      shipX - 1,
-      0
-    },
+    Position{ shipX - 1, 0 },
     SHIP_COLOR
   );
 
   matrix.drawPixel(
-    Position{
-      shipX,
-      0
-    },
+    Position{ shipX, 0 },
     SHIP_COLOR
   );
 
   matrix.drawPixel(
-    Position{
-      shipX + 1,
-      0
-    },
+    Position{ shipX + 1, 0 },
     SHIP_COLOR
   );
 
   matrix.drawPixel(
-    Position{
-      shipX,
-      1
-    },
+    Position{ shipX, 1 },
     SHIP_COLOR
   );
 }
@@ -99,9 +80,7 @@ void drawShip(
 // =====================================================
 
 // Zeichnet den aktuellen Spielzustand auf Matrix und Display.
-void StarFallRender::state(
-  const StarFallState& state
-) {
+void StarFallRender::state(const StarFallState& state) {
   matrix.clear();
 
   matrix.drawPixels(
@@ -128,40 +107,24 @@ void StarFallRender::state(
 
 
 // Spielt den Soundeffekt für einen abgefeuerten Schuss.
-void StarFallRender::event(
-  const DidShoot&
-) {
-  audio.effect(
-    SHOOT_SOUND
-  );
+void StarFallRender::event(const DidShoot&) {
+  audio.effect(SHOOT_SOUND);
 }
 
 
 // Spielt den Soundeffekt für einen getroffenen Stern.
-void StarFallRender::event(
-  const DidHitStar&
-) {
-  audio.effect(
-    HIT_SOUND
-  );
+void StarFallRender::event(const DidHitStar&) {
+  audio.effect(HIT_SOUND);
 }
 
 
 // Spielt den Soundeffekt für eine Kollision mit dem Schiff.
-void StarFallRender::event(
-  const DidHitShip&
-) {
-  audio.effect(
-    SHIP_HIT_SOUND
-  );
+void StarFallRender::event(const DidHitShip&) {
+  audio.effect(SHIP_HIT_SOUND);
 }
 
 
 // Zeichnet den Game-Over-Bildschirm mit dem finalen Score.
-void StarFallRender::gameOver(
-  const StarFallState& state
-) {
-  screen.drawGameOver(
-    state.score
-  );
+void StarFallRender::gameOver(const StarFallState& state) {
+  screen.drawGameOver(state.score);
 }
