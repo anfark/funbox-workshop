@@ -1,16 +1,39 @@
 #include <FunBox.h>
 
-#include "MoveGame.h"
+#include "Snake.h"
+
 
 FunBox box;
-MoveGame moveGame;
+
+
+SnakeConfig snakeConfig = {
+  .bounds = {
+    .w = 8,
+    .h = 8
+  }
+};
+
+
+SnakeGame snake(
+  snakeConfig,
+  box.matrix(),
+  box.screen(),
+  box.audio()
+);
+
+
+GameDescription snakeDescription(
+  "Snake",
+  snake
+);
+
 
 void setup() {
-  Serial.begin(115200);
+  box.addGame(snakeDescription);
 
-  box.addGame(moveGame);
   box.setup();
 }
+
 
 void loop() {
   box.update();
