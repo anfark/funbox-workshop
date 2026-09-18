@@ -6,25 +6,20 @@
 #include <FunBox.h>
 
 
-// -----------------------------------------------------
-// Config
-// -----------------------------------------------------
-
 struct SnakeConfig {
   Size bounds;
 };
 
 
-// -----------------------------------------------------
-// State
-// -----------------------------------------------------
+using SnakeBody =
+  std::vector<Position>;
 
-using SnakeBody = std::vector<Position>;
 
 struct Snake {
   Position head;
   SnakeBody body;
 };
+
 
 struct SnakeState {
   Snake snake;
@@ -33,25 +28,22 @@ struct SnakeState {
 };
 
 
-// -----------------------------------------------------
-// Events
-// -----------------------------------------------------
-
 struct DidEatFruit {};
 struct DidEatSnake {};
 
-using SnakeEvent = std::variant<
-  DidEatFruit,
-  DidEatSnake
->;
 
+using SnakeEvent =
+  std::variant<
+    DidEatFruit,
+    DidEatSnake
+  >;
 
-// -----------------------------------------------------
-// Update
-// -----------------------------------------------------
 
 class SnakeUpdate
-  : public GameUpdate<SnakeState, SnakeEvent> {
+  : public GameUpdate<
+      SnakeState,
+      SnakeEvent
+    > {
 
 public:
   SnakeUpdate(
@@ -61,7 +53,10 @@ public:
   );
 
   void tick() override;
-  void move(Direction direction) override;
+
+  void move(
+    Direction direction
+  ) override;
 
   bool isOver() const override;
 
@@ -72,46 +67,25 @@ private:
 };
 
 
-// -----------------------------------------------------
-// Render
-// -----------------------------------------------------
-
 class SnakeRender
-  : public GameRender<
-      SnakeRender,
-      SnakeState,
-      SnakeEvent
-    > {
+  : public GameRender {
 
 public:
-  SnakeRender(
-    Matrix& matrix,
-    Screen& screen,
-    Audio& audio
-  );
+  using GameRender::GameRender;
 
-  void didChange(
+  void state(
     const SnakeState& state
   );
 
-  void didTrigger(
+  void event(
     const DidEatFruit&
   );
 
-  void didTrigger(
+  void event(
     const DidEatSnake&
   );
-
-private:
-  Matrix& _matrix;
-  Screen& _screen;
-  Audio& _audio;
 };
 
-
-// -----------------------------------------------------
-// Game
-// -----------------------------------------------------
 
 class SnakeGame
   : public Game<

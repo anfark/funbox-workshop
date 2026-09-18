@@ -7,10 +7,7 @@ FunBox box;
 
 
 SnakeConfig snakeConfig = {
-  .bounds = {
-    .w = 8,
-    .h = 8
-  }
+  .bounds = Matrix::SIZE
 };
 
 
